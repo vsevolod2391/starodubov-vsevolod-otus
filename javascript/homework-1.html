@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<h1>Домашнее задание 1</h1>
+<p>Написать функцию суммирования значений <br>
+    Написать функцию sum, которая может быть исполнена любое количество раз с не `undefined` аргументом. <br>
+    Если она исполнена без аргументов, то возвращает значение суммы всех переданных до этого значений.</p>
+
+  <p>  sum(1)(2)(3)....(n)() === 1 + 2 + 3 + ... + n</p>
+<script>
+    function sum(n){
+        var result = n;
+        return function sum2(a) {
+            if(a == undefined) return result;
+            result += a;
+            return sum2;
+        }
+    }
+
+    console.log(sum(1)(2)(3)());
+</script>
+
+</body>
+</html>
