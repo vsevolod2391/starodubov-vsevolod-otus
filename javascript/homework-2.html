@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<h1>Домашнее задание 2</h1>
+<p>promiseReduce - работа с асинхронными функциями <br>
+    Написать функцию `promiseReduce`, которая получает на вход<br>
+    - массив асинхронных функций `asyncFunctions`, возвращающих `Promise`,<br>
+    - `reduce` функцию и<br>
+    - стартовое значение `initialValue`.<br>
+<br>
+    `promiseReduce` поочередно вызывает переданные асинхронные функции<br>
+    и выполняет `reduce` функцию сразу при получении результата до вызова следующей асинхронной функции.<br>
+<br>
+    `reduce` должна отрабатывать аналогично [`Array.prototype.reduce`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/Reduce), то есть запоминать результат предыдущей итерации</p>
+
+  <p>  Вывод в консоль<br>
+      <br>
+      ```<br>
+      fn1<br>
+      reduce<br>
+      fn2<br>
+      reduce<br>
+      2<br>
+      ```</p>
+<script>
+    var promiseReduce = (asyncFunctions, reduce, initialValue) => {
+
+        let promise = Promise.resolve();
+
+        asyncFunctions.forEach(item => {
+            promise = promise.then(() => item()).then(value => initialValue = reduce(initialValue, value));
+    })
+
+        return promise;
+    };
+
+    var fn1 = () => {
+        console.log('fn1');
+        return Promise.resolve(1);
+    };
+
+    var fn2 = () => new Promise(resolve => {
+        console.log('fn2')
+    setTimeout(() => resolve(2), 1000);
+    });
+
+    promiseReduce(
+            [fn1, fn2],
+            function (memo, value) {
+                console.log('reduce');
+                return memo * value;
+            },
+            1
+    )
+    .then(console.log);
+
+</script>
+
+</body>
+</html>
